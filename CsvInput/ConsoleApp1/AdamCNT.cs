@@ -31,6 +31,7 @@ namespace ServerApp
             m_szIP = Constants.DEF_IP;
             m_iPort = Constants.DEF_PORT;
             m_adamModbus = new AdamSocket();
+            m_adamUDP = new AdamSocket();
             m_adamModbus.SetTimeout(1000, 1000, 1000);  // set timeout for TCP
             m_Adam6000Type = Adam6000Type.Adam6051; // the sample is for ADAM-6051
 
@@ -48,19 +49,18 @@ namespace ServerApp
         }
 
 
-        public bool createCounterSocket()
+        public void createCounterSocket()
         {
             if (m_adamModbus.Connect(Constants.DEF_IP, ProtocolType.Tcp, Constants.DEF_PORT))
             {
-                return true;
+                Console.WriteLine("TCP socket connected successfuly...");
             }
             else
             {
-                return false;
+                Console.WriteLine("Connecting TCP socket failed...");
             }
 
         }
-
         public void counterStart()
         {
             int iStart;             // base address
@@ -110,6 +110,23 @@ namespace ServerApp
         public double getCnt()
         {
             return cnt;
+        }
+
+        public void createSwitchSocket()
+        {
+            if (m_adamUDP.Connect(AdamType.Adam6000, Constants.DEF_IP, ProtocolType.Udp))
+            {
+                Console.WriteLine("UDP socket connected successfuly...");
+            }
+            else
+            {
+                Console.WriteLine("Connecting UDP socket failed...");
+            }
+        }
+
+        public void switchStart()
+        {
+            /*TO DO*/
         }
     }
 }

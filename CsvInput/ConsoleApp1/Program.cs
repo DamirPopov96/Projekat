@@ -32,14 +32,8 @@ namespace ServerApp
             AdamComponent = new AdamCNT();
 
 
-            if (AdamComponent.createCounterSocket())
-            {
-                Console.WriteLine("Socket connected successfuly...");
-            }
-            else
-            {
-                Console.WriteLine("Connecting socket failed...");
-            }
+            AdamComponent.createCounterSocket();
+            AdamComponent.createSwitchSocket();
 
             AdamComponent.counterStart();
 
