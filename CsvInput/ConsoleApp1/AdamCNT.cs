@@ -61,6 +61,65 @@ namespace ServerApp
             }
 
         }
+
+        public void createButtonSocket()
+        {
+            if (m_adamUDP.Connect(AdamType.Adam6000, Constants.DEF_IP, ProtocolType.Udp))
+            {
+                Console.WriteLine("UDP socket connected successfuly...");
+            }
+            else
+            {
+                Console.WriteLine("Connecting UDP socket failed...");
+
+            }
+        }
+
+        public void buttonStart()
+        {
+
+            
+            
+            int iDiStart = 1;
+            int iDoStart = 17;
+            int iConfigStart;
+            bool[] bDiData; 
+            int iChTotal = 2;
+            string dataButton;
+            int iStart;
+            int iOnOff;
+
+            iConfigStart = Counter.GetChannelStart(m_Adam6000Type);
+            iStart = 17 + 0 - 1;
+            if (m_adamModbus.Modbus().ReadCoilStatus(iDiStart, 1, out bDiData))
+            {
+                dataButton = bDiData.ToString();
+                if (dataButton == "true")
+                {
+                    iOnOff = 0;
+                }else
+                {
+                    iOnOff = 1;
+                }
+
+                    if (m_adamModbus.Modbus().ForceSingleCoil(iStart, iOnOff))
+                    {
+                        Console.WriteLine("Button enabled...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Setting output failed...");
+                    }
+
+            }
+            else
+            {
+                Console.WriteLine("Failed to read status...");
+            }
+        
+
+
+        }
         public void counterStart()
         {
             int iStart;             // base address
@@ -88,6 +147,8 @@ namespace ServerApp
                 cnt = Counter.GetScaledValue(m_Adam6000Type, 1, iData[1], iData[0]);
                 Console.WriteLine(cnt.ToString(Counter.GetFormat(m_Adam6000Type, m_byMode[0])) + " " + Counter.GetUnitName(m_Adam6000Type, m_byMode[0]));
             }
+
+
         }
 
         public void resetCounter()
