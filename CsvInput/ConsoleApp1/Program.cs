@@ -33,10 +33,10 @@ namespace ServerApp
 
 
             AdamComponent.createCounterSocket();
-            AdamComponent.createSwitchSocket();
-
+            //AdamComponent.createSwitchSocket();
+            AdamComponent.createButtonSocket();
             AdamComponent.counterStart();
-
+           
 
             setTimer(time);
             Console.Write("Press ESC to exit...\n");
@@ -56,6 +56,7 @@ namespace ServerApp
         }
         private static void OnSignal(Object source, ElapsedEventArgs e)
         {
+            AdamComponent.buttonRead();
             AdamComponent.counterRead();
             Console.WriteLine("Entered timer... ");
             objListOut.Add(new outputForm(AdamComponent.getCnt(), "OFF")); //napravi geter za cnt

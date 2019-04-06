@@ -81,7 +81,7 @@ namespace ServerApp
             
             
             int iDiStart = 1;
-            int iDoStart = 17;
+          
             int iConfigStart;
             bool[] bDiData; 
             int iChTotal = 2;
@@ -90,26 +90,20 @@ namespace ServerApp
             int iOnOff;
 
             iConfigStart = Counter.GetChannelStart(m_Adam6000Type);
-            iStart = 17 + 0 - 1;
-            if (m_adamModbus.Modbus().ReadCoilStatus(iDiStart, 1, out bDiData))
+            iStart = 17 + 6 - 12;
+            if (m_adamModbus.Modbus().ReadCoilStatus(iDiStart, 12, out bDiData))
             {
-                dataButton = bDiData.ToString();
-                if (dataButton == "true")
+                dataButton = bDiData[6].ToString();
+                if (dataButton == "True")
                 {
+                    Console.WriteLine("Button OFF");
                     iOnOff = 0;
                 }else
                 {
+                    Console.WriteLine("Button ON");
                     iOnOff = 1;
                 }
 
-                    if (m_adamModbus.Modbus().ForceSingleCoil(iStart, iOnOff))
-                    {
-                        Console.WriteLine("Button enabled...");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Setting output failed...");
-                    }
 
             }
             else
